@@ -1,0 +1,9 @@
+services:
+  sakai-react:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sakai-react
+    restart: always
+    ports:
+      - "3002:3000"
