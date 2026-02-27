@@ -1,15 +1,20 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import Layout from '../../layout/layout';
+import { Suspense } from 'react';
 
 interface AppLayoutProps {
     children: React.ReactNode;
 }
 
+export const viewport: Viewport = {
+    initialScale: 1,
+    width: 'device-width'
+};
+
 export const metadata: Metadata = {
     title: 'PrimeReact Sakai',
     description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.',
     robots: { index: false, follow: false },
-    viewport: { initialScale: 1, width: 'device-width' },
     openGraph: {
         type: 'website',
         title: 'PrimeReact SAKAI-REACT',
@@ -24,5 +29,9 @@ export const metadata: Metadata = {
 };
 
 export default function AppLayout({ children }: AppLayoutProps) {
-    return <Layout>{children}</Layout>;
+    return (
+        <Suspense>
+            <Layout>{children}</Layout>
+        </Suspense>
+    );
 }

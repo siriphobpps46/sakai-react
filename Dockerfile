@@ -22,14 +22,15 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-# Copy necessary files from builder
-# Next.js standalone build is preferred for production, 
-# but following the user's example which copies .next, public, etc.
-COPY --from=builder /app/.next ./.next
+# Next.js standalone build output contains everything needed to run the app
+# including a minimal node_modules. This significantly reduces image size.
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+CMD ["node", "server.js"]
